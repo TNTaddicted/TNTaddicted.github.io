@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Cube Animation</title>
+  <title>Loader with Stopwatch</title>
   <style>
     /* General Styles */
     body {
@@ -11,162 +11,113 @@
       padding: 0;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       background: #1a1a1a;
-      overflow: hidden;
+      color: #fff;
+      font-family: Arial, sans-serif;
     }
 
-    /* Cube Container */
-    .cubes {
+    /* Loader Styles */
+    .loader {
+      position: relative;
+      font-size: 16px;
+      width: 5.5em;
+      height: 5.5em;
+    }
+
+    .loader:before {
+      content: '';
       position: absolute;
-      top: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      height: 100%;
+      width: 4px;
+      background: #fff;
       left: 50%;
-      transform-style: preserve-3d;
+      top: 50%;
     }
 
-    /* Loop for 3D Rotation */
-    .loop {
-      transform: rotateX(-35deg) rotateY(-45deg) translateZ(1.5625em);
+    .loader:after {
+      content: '';
+      position: absolute;
+      left: 0.2em;
+      bottom: 0.18em;
+      width: 1em;
+      height: 1em;
+      background-color: darkred;
+      border-radius: 15%;
+      animation: rollingRock 2.5s cubic-bezier(.79, 0, .47, .97) infinite;
     }
 
-    /* Keyframes for Scaling Animation */
-    @keyframes s {
-      to {
-        transform: scale3d(0.2, 0.2, 0.2);
+    /* Keyframes for Loader Animation */
+    @keyframes rollingRock {
+      0% {
+        transform: translate(0, -1em) rotate(-45deg);
+      }
+      5% {
+        transform: translate(0, -1em) rotate(-50deg);
+      }
+      20% {
+        transform: translate(1em, -2em) rotate(47deg);
+      }
+      25% {
+        transform: translate(1em, -2em) rotate(45deg);
+      }
+      30% {
+        transform: translate(1em, -2em) rotate(40deg);
+      }
+      45% {
+        transform: translate(2em, -3em) rotate(137deg);
+      }
+      50% {
+        transform: translate(2em, -3em) rotate(135deg);
+      }
+      55% {
+        transform: translate(2em, -3em) rotate(130deg);
+      }
+      70% {
+        transform: translate(3em, -4em) rotate(217deg);
+      }
+      75% {
+        transform: translate(3em, -4em) rotate(220deg);
+      }
+      100% {
+        transform: translate(0, -1em) rotate(-225deg);
       }
     }
 
-    /* Individual Cube Items */
-    .item {
-      margin: -1.5625em;
-      width: 3.125em;
-      height: 3.125em;
-      transform-origin: 50% 50% -1.5625em;
-      box-shadow: 0 0 0.125em currentColor;
-      background: currentColor;
-      animation: s 0.6s cubic-bezier(0.45, 0.03, 0.51, 0.95) infinite alternate;
-      position: absolute;
-    }
-
-    /* Pseudo-elements for Cube Sides */
-    .item:before,
-    .item:after {
-      position: absolute;
-      width: inherit;
-      height: inherit;
-      transform-origin: 0 100%;
-      box-shadow: inherit;
-      background: currentColor;
-      content: "";
-    }
-
-    .item:before {
-      bottom: 100%;
-      transform: rotateX(90deg);
-    }
-
-    .item:after {
-      left: 100%;
-      transform: rotateY(90deg);
-    }
-
-    /* Individual Cube Colors and Delays */
-    .item:nth-child(1) {
-      margin-top: 6.25em;
-      color: #fe1e52;
-      animation-delay: -1.2s;
-    }
-
-    .item:nth-child(1):before {
-      color: #ff6488;
-    }
-
-    .item:nth-child(1):after {
-      color: #ff416d;
-    }
-
-    .item:nth-child(2) {
-      margin-top: 3.125em;
-      color: #fe4252;
-      animation-delay: -1s;
-    }
-
-    .item:nth-child(2):before {
-      color: #ff8892;
-    }
-
-    .item:nth-child(2):after {
-      color: #ff6572;
-    }
-
-    .item:nth-child(3) {
-      margin-top: 0em;
-      color: #fe6553;
-      animation-delay: -0.8s;
-    }
-
-    .item:nth-child(3):before {
-      color: #ffa499;
-    }
-
-    .item:nth-child(3):after {
-      color: #ff8476;
-    }
-
-    .item:nth-child(4) {
-      margin-top: -3.125em;
-      color: #fe8953;
-      animation-delay: -0.6s;
-    }
-
-    .item:nth-child(4):before {
-      color: #ffb999;
-    }
-
-    .item:nth-child(4):after {
-      color: #ffa176;
-    }
-
-    .item:nth-child(5) {
-      margin-top: -6.25em;
-      color: #feac54;
-      animation-delay: -0.4s;
-    }
-
-    .item:nth-child(5):before {
-      color: #ffce9a;
-    }
-
-    .item:nth-child(5):after {
-      color: #ffbd77;
-    }
-
-    .item:nth-child(6) {
-      margin-top: -9.375em;
-      color: #fed054;
-      animation-delay: -0.2s;
-    }
-
-    .item:nth-child(6):before {
-      color: #ffe49a;
-    }
-
-    .item:nth-child(6):after {
-      color: #ffda77;
+    /* Stopwatch Styles */
+    .stopwatch {
+      margin-top: 30px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: orange;
     }
   </style>
 </head>
 <body>
-  <div class="cubes">
-    <div class="loop">
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-    </div>
-  </div>
+  <!-- Loader -->
+  <div class="loader"></div>
+
+  <!-- Stopwatch -->
+  <div class="stopwatch">00:00</div>
+
+  <script>
+    // Stopwatch Logic
+    let seconds = 0;
+    const stopwatchElement = document.querySelector('.stopwatch');
+
+    function updateStopwatch() {
+      seconds++;
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      stopwatchElement.textContent = 
+        `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    }
+
+    // Start the stopwatch
+    setInterval(updateStopwatch, 1000);
+  </script>
 </body>
 </html>
