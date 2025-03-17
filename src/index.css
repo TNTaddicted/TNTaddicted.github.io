@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .rotate-y-\[-15deg\] {
+    transform: rotateY(-15deg);
+  }
+  .rotate-x-\[10deg\] {
+    transform: rotateX(10deg);
+  }
+  .translate-z-2 {
+    transform: translateZ(2px);
+  }
+}
+
+:root {
+  --keyboard-depth: 20px;
+}
+
+.keyboard-base {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.keyboard-base::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateZ(calc(var(--keyboard-depth) * -1));
+  background: linear-gradient(to bottom, #1a1a1a, #000);
+  border-radius: 1rem;
+}
